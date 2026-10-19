@@ -1,0 +1,8 @@
+rule_id,target,requirement,severity,implementation
+R01,PackagedProduct,nonempty barcode,Violation,shapes/shapes.ttl
+R03,PackagedProduct,nonempty product name,Violation,shapes/shapes.ttl
+R10a,PackagedProduct,fat 0 to 100 g per 100g if present,Violation,shapes/shapes.ttl
+R10b,PackagedProduct,salt nonnegative if present,Warning,shapes/shapes.ttl
+R12,PackagedProduct,energy 0 to 900 kcal per 100g if present,Violation,shapes/shapes.ttl
+R13,PackagedProduct,known Nutri-Score grade when present,Violation,shapes/shapes.ttl
+R17,PackagedProduct,ingredients-allergen tag string mismatch possible,Review,ETL flag only (no clinical interpretation)

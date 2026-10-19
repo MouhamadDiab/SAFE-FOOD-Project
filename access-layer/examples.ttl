@@ -1,0 +1,52 @@
+# Few-shot examples (SHACL executable vocabulary). Disjoint from questions.yaml.
+
+@prefix ex: <https://ul.edu.lb/kr/foodsafe/examples/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:1 a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;
+    rdfs:comment "How many packaged products are in the graph?" ;
+    sh:select """PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>
+SELECT (COUNT(?p) AS ?n) WHERE {
+  ?p a foodsafe:PackagedProduct .
+}""" .
+
+ex:2 a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;
+    rdfs:comment "List product names that declare milk as an allergen" ;
+    sh:select """PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>
+SELECT ?name WHERE {
+  ?p a foodsafe:PackagedProduct ;
+     foodsafe:hasDeclaredAllergen foodsafe:AllergenMilk ;
+     foodsafe:productName ?name .
+}
+LIMIT 20""" .
+
+ex:3 a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;
+    rdfs:comment "Which products have a label gap flag?" ;
+    sh:select """PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>
+SELECT ?name WHERE {
+  ?p a foodsafe:PackagedProduct ;
+     foodsafe:hasLabelGapFlag true ;
+     foodsafe:productName ?name .
+}
+LIMIT 20""" .
+
+ex:4 a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;
+    rdfs:comment "How many products have Nutri-Score grade A?" ;
+    sh:select """PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>
+SELECT (COUNT(?p) AS ?n) WHERE {
+  ?p foodsafe:hasNutriScore foodsafe:GradeA .
+}""" .
+
+ex:5 a sh:SPARQLExecutable, sh:SPARQLSelectExecutable ;
+    rdfs:comment "Find OFF products linked to a USDA record for the same barcode" ;
+    sh:select """PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>
+SELECT ?offName ?usdaName WHERE {
+  ?off a foodsafe:PackagedProduct ;
+       foodsafe:fromSource foodsafe:SourceOFF ;
+       foodsafe:sameProductAs ?usda ;
+       foodsafe:productName ?offName .
+  ?usda foodsafe:productName ?usdaName ;
+        foodsafe:fromSource foodsafe:SourceUSDA .
+}
+LIMIT 20""" .

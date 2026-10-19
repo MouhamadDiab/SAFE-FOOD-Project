@@ -1,0 +1,7 @@
+seed,method,test_edges,allergen_classes,mrr,hits_at_1,hits_at_3
+11,popularity,853,12,0.2644,0.0926,0.2485
+11,brand_neighbors,853,12,0.255,0.0774,0.2462
+23,popularity,853,12,0.256,0.0774,0.2579
+23,brand_neighbors,853,12,0.2539,0.0715,0.2415
+37,popularity,853,12,0.2515,0.0715,0.2485
+37,brand_neighbors,853,12,0.2467,0.0645,0.2403

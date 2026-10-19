@@ -1,0 +1,21 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix foodsafe: <https://ul.edu.lb/kr/foodsafe#> .
+
+# Optional deep Warning shapes (SPARQL). Run manually on a sample when needed:
+#   python -c "from pyshacl import validate; ..."
+# Not used by the CI gate (too slow on full graph).
+
+foodsafe:OpaqueWarning
+  a sh:NodeShape ;
+  sh:targetClass foodsafe:PackagedProduct ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:severity sh:Warning ;
+    sh:message "R06: label-opaque" ;
+    sh:select """
+      SELECT $this WHERE {
+        FILTER NOT EXISTS { $this foodsafe:hasDeclaredAllergen ?a }
+        FILTER NOT EXISTS { $this foodsafe:ingredientsText ?t }
+      }
+    """ ;
+  ] .

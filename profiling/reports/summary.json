@@ -1,0 +1,36 @@
+{
+  "source": "synthetic OFF-shaped teaching data; not a live Open Food Facts extract",
+  "products": 2925,
+  "unique_barcodes": 2925,
+  "brands": 16,
+  "with_declared_allergen_tags": 2110,
+  "missing_nutrients": {
+    "energy_kcal_100g": 0,
+    "fat_100g": 80,
+    "sugars_100g": 0,
+    "proteins_100g": 80,
+    "salt_100g": 0
+  },
+  "reported_nutriscore": {
+    "A": 412,
+    "E": 373,
+    "missing": 980,
+    "D": 436,
+    "C": 378,
+    "B": 346
+  },
+  "raw_declared_tag_counts": {
+    "en:gluten": 362,
+    "en:nuts": 373,
+    "en:peanuts": 333,
+    "en:sesame-seeds": 339,
+    "en:mustard": 329,
+    "en:sulphur-dioxide-and-sulphites": 347,
+    "en:fish": 353,
+    "en:celery": 361,
+    "en:crustaceans": 360,
+    "en:milk": 387,
+    "en:eggs": 348,
+    "en:soybeans": 372
+  }
+}

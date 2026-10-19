@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+*.sqlite
+*.db
+.DS_Store
+
+# Do not publish generated PyTorch tensor snapshots
+model/outputs/*.pt
+
+# Dataset preparation reports containing raw lines are intended for reproducibility.
+# Do not commit manually created credentials or recorded LLM cache.
+access-layer/llm-cache.json
+
+# Local backups from the documentation and validator edits
+*.bak
+.local-backups/

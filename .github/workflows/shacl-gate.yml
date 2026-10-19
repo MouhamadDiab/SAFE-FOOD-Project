@@ -1,0 +1,20 @@
+name: SHACL gate (SAFE-FOOD)
+on: [push, pull_request]
+jobs:
+  local-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements-pipeline.txt
+      - name: Install core dependencies
+        run: pip install -r pipeline/requirements-pipeline.txt
+      - name: Generate prepared synthetic SQLite
+        run: python data/build_example_sql.py
+      - name: SHACL validation from clean checkout
+        run: python pipeline/run.py --no-load
+      - name: Unit tests
+        run: pip install pytest && python -m pytest tests/ -q

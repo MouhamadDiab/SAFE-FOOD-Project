@@ -1,0 +1,5 @@
+requests==2.34.2
+rdflib==7.6.0
+python-dotenv==1.2.3
+pyoxigraph==0.5.11
+ruamel.yaml==0.18.16

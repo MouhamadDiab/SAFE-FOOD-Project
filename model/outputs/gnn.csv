@@ -1,0 +1,4 @@
+seed,train_n,macro_f1,balanced_accuracy,average_precision,test_n,test_positive
+11,1493,0.5211,0.5282,0.4273,452,176
+23,1407,0.4957,0.5079,0.3922,538,195
+37,1451,0.5038,0.5124,0.4193,494,191

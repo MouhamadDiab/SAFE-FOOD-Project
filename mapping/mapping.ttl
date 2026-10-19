@@ -1,0 +1,81 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foodsafe: <https://ul.edu.lb/kr/foodsafe#> .
+
+# Declarative mapping design for the SQLite tables.
+# The default tested pipeline uses mapping/materialize.py; Morph-KGC execution
+# and parity with this R2RML must still be verified before final submission.
+
+<#OffProduct>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:tableName "off_products" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ; rr:class foodsafe:PackagedProduct ] ;
+ rr:predicateObjectMap [ rr:predicate rdf:type ; rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/{foodon_class}" ; rr:termType rr:IRI ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:barcode ; rr:objectMap [ rr:column "code" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:productName ; rr:objectMap [ rr:column "product_name" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:brandName ; rr:objectMap [ rr:column "brands" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:ingredientsText ; rr:objectMap [ rr:column "ingredients_text" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:hasCategoryTag ; rr:objectMap [ rr:column "categories_tags" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:energyKcal100g ; rr:objectMap [ rr:column "energy_kcal_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:fat100g ; rr:objectMap [ rr:column "fat_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:sugars100g ; rr:objectMap [ rr:column "sugars_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:proteins100g ; rr:objectMap [ rr:column "proteins_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:salt100g ; rr:objectMap [ rr:column "salt_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:retrievedOn ; rr:objectMap [ rr:column "retrieved_date" ; rr:datatype xsd:date ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:fromSource ; rr:objectMap [ rr:constant foodsafe:SourceOFF ] ] .
+
+<#OFFNutriScore>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:sqlQuery "SELECT code, nutri_iri FROM off_products WHERE nutri_iri IS NOT NULL AND nutri_iri <> ''" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:hasNutriScore ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/foodsafe#{nutri_iri}" ; rr:termType rr:IRI ] ] .
+
+<#OFFLabelGaps>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:sqlQuery "SELECT code FROM off_products WHERE label_gap=1" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:hasLabelGapFlag ; rr:objectMap [ rr:constant "true" ; rr:datatype xsd:boolean ] ] .
+
+<#OFFDeclaredAllergens>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:tableName "off_allergens" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:hasDeclaredAllergen ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/foodsafe#{allergen_iri}" ; rr:termType rr:IRI ] ] .
+
+<#OFFTraces>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:tableName "off_traces" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:mayContainAllergen ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/foodsafe#{allergen_iri}" ; rr:termType rr:IRI ] ] .
+
+<#USDAProduct>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:tableName "usda_products" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/usda/{gtin_upc}" ; rr:class foodsafe:PackagedProduct ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:barcode ; rr:objectMap [ rr:column "gtin_upc" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:productName ; rr:objectMap [ rr:column "description" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:brandName ; rr:objectMap [ rr:column "brand_owner" ; rr:datatype xsd:string ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:energyKcal100g ; rr:objectMap [ rr:column "energy_kcal_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:fat100g ; rr:objectMap [ rr:column "fat_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:proteins100g ; rr:objectMap [ rr:column "proteins_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:sugars100g ; rr:objectMap [ rr:column "sugars_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:salt100g ; rr:objectMap [ rr:column "salt_100g" ; rr:datatype xsd:decimal ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:retrievedOn ; rr:objectMap [ rr:column "retrieved_date" ; rr:datatype xsd:date ] ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:fromSource ; rr:objectMap [ rr:constant foodsafe:SourceUSDA ] ] .
+
+<#BarcodeLinkOFFtoUSDA>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:sqlQuery "SELECT o.code FROM off_products o INNER JOIN usda_products u ON o.code=u.gtin_upc" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{code}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:sameProductAs ; rr:objectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/usda/{code}" ; rr:termType rr:IRI ] ] .
+
+# Reverse assertion explicitly materialized by Python too.
+# foodsafe:sameProductAs is declared symmetric in the ontology, but R2RML
+# materializers do not necessarily run OWL reasoning.
+<#BarcodeLinkUSDAtoOFF>
+ a rr:TriplesMap ;
+ rr:logicalTable [ rr:sqlQuery "SELECT u.gtin_upc FROM usda_products u INNER JOIN off_products o ON u.gtin_upc=o.code" ] ;
+ rr:subjectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/usda/{gtin_upc}" ] ;
+ rr:predicateObjectMap [ rr:predicate foodsafe:sameProductAs ;
+   rr:objectMap [ rr:template "https://ul.edu.lb/kr/food/id/product/off/{gtin_upc}" ; rr:termType rr:IRI ] ] .

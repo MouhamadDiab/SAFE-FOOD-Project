@@ -1,0 +1,4 @@
+rdflib==7.6.0
+pyshacl==0.40.1
+requests==2.34.2
+python-dotenv==1.2.3

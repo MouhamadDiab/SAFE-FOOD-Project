@@ -1,0 +1,10 @@
+{
+  "statement": "All five learning-layer source files byte-identical to pre-Option-A SAFE-FOOD-REVIEWED reference",
+  "sha256": {
+    "model/gnn.py": "12aa7955372df074eee8a8ec60215a6fa182315d484f03704aa5fcf108475f27",
+    "model/baseline.py": "84fa75c8cadb9aeeab646124deda6b9034e5e26dcb918045a57dd41855e5ad57",
+    "model/build_graph.py": "6d09bc22ebbaff91b614b29ea6e6a775b891fbbccce8ac5cecb4e89c28349291",
+    "model/common.py": "9b51c9b33832d83cca335d9af8d52afc7832e57f655250279785d7d112a110bd",
+    "model/link_prediction.py": "420f4f3fe1ad5534af6f3053870726a30d44cb833c386d3711651064ddc02c13"
+  }
+}

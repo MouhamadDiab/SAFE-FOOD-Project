@@ -1,0 +1,48 @@
+{
+  "dataset_type": "synthetic teaching fixtures, not actual source downloads",
+  "original_files": {
+    "OFF": {
+      "sha256": "c56c1921f8dd26c9f252ca94e70bd240bf9104dc48183947a3702c3a1b14d11d",
+      "rows": 3001
+    },
+    "USDA": {
+      "sha256": "42a110940c79ad24559053172bd1314eacfd7af37ab83f39535d254c5f428354",
+      "rows": 800
+    }
+  },
+  "cleaning_policy": "Exclude invalid identity or out-of-range/invalid nutrient rows; deduplicate; set invalid score/NOVA to missing; preserve valid reported numeric values",
+  "OFF": {
+    "raw_rows": 3001,
+    "prepared_rows": 2925,
+    "excluded_rows": 76,
+    "with_nutriscore_A_to_E": 1945,
+    "missing_nutriscore": 980,
+    "changes": {
+      "duplicate_identifier": 1,
+      "invalid_nova_to_missing": 5,
+      "invalid_nutriscore_to_missing": 28,
+      "missing_name": 30,
+      "out_of_range_energy_kcal_100g": 35,
+      "out_of_range_fat_100g": 37
+    }
+  },
+  "USDA": {
+    "raw_rows": 800,
+    "prepared_rows": 797,
+    "excluded_rows": 3,
+    "changes": {
+      "out_of_range_energy_kcal_100g": 3
+    }
+  },
+  "matching": {
+    "exact_shared_barcodes": 146,
+    "energy_review_candidates_threshold_10kcal_or_10pct": 13
+  },
+  "notes": [
+    "Same barcode is a candidate match, not independent proof of actual product identity.",
+    "Nutritional values and labels are synthetic; none were fabricated or corrected to improve GNN F1.",
+    "Missing optional nutrient values are preserved for model training-only imputation.",
+    "Raw planted errors are preserved unchanged in data/raw for SHACL teaching demonstrations.",
+    "Only the existing brand-neighbor GNN is used; sameProductAs links are RDF, not GNN message-passing edges."
+  ]
+}
