@@ -2,6 +2,8 @@
 
 **MSc Knowledge Representation teaching project - verification snapshot: 20 October 2026.**
 
+**Authors:** Mohammad Diab and Mohammad Mantach.
+
 SAFE-FOOD illustrates ontology-driven quality checking, semantic integration, SPARQL question-answering and exploratory graph learning over two **synthetic** packaged-food datasets shaped like Open Food Facts (OFF) and USDA FoodData Central (USDA). These are **not verified real product downloads**. Barcodes and overlap pairs were constructed for a controlled teaching experiment. Do not use the outputs for consumer, clinical or regulatory food-safety decisions.
 
 **Start here:** [Windows / Docker run guide](RUN_GUIDE_AR.md) | [Technical report](report/REPORT.md) | [PDF report](report/SAFE_FOOD_Option_A_Final_Report.pdf) | [Validation ledger](TEST_STATUS.md) | [Before GitHub](FINAL_PREUPLOAD_CHECKLIST.md).

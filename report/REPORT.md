@@ -2,7 +2,7 @@
 
 **Date:** 20 October 2026
 **Course:** MSc Knowledge Representation
-**Authors / team roles:** [Add confirmed details before submission]
+**Authors:** Mohammad Diab and Mohammad Mantach
 **Data disclosure:** All OFF-shaped and USDA-shaped product rows are deliberately **synthetic educational data**. No claim is made that any listed product, barcode link, nutrient label or allergen declaration was verified in the real world.
 
 ## Abstract

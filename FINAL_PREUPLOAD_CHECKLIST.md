@@ -1,26 +1,26 @@
-# SAFE-FOOD - before publishing on GitHub
+# SAFE-FOOD Option A - Final pre-push checklist
 
-**Current status:** Preparation and local verification in progress. Do not initialize, connect or push a repository until every relevant box below is reviewed.
+**Authors:** Mohammad Diab and Mohammad Mantach
+**Course:** MSc Knowledge Representation
+**Status:** Local main prepared and verified; replace the old main working tree by a normal non-force push after final review.
 
-- [x] Raw synthetic data and prepared data exist; disclosed as **synthetic**.
-- [x] RDF and SHACL pipeline run on Windows Docker: 56,474 triples, 0 violations.
-- [x] Fuseki SPARQL: 3,722 products; 146 synthetic identity pairs.
-- [x] Baseline, GNN, link-ranking results saved; unchanged model architecture and task.
-- [x] Tests: 7 passed, 0 skipped, 2 non-fatal serializer warnings.
-- [x] Live Gemini schema evaluation after prompt update; small 6-question sample only.
-- [x] Synthetic two-attempt repair-loop test passed.
-- [ ] Make sure `access-layer/prompt_rules.txt` no longer says USDA has zero records.
-- [ ] Ensure local `access_layer.py` still includes `unknown_allergen_individuals` validation.
-- [ ] Keep final ML-ready `pipeline/Dockerfile` and re-verify after any changes.
-- [ ] Verify `.env` is excluded; do not commit secret backups, shell histories, caches, tokens or files containing keys.
-- [ ] Inspect `git status --short` and `git diff --cached --name-only` **after** initializing the new repository.
-- [ ] Confirm teammates' names, contributions and instructor-required submission format.
-- [ ] Decide whether the older outdated PDF draft should be archived, not shown as final.
-- [ ] Optionally evaluate more unseen QA questions to qualify the targeted Gemini F1 metric.
-- [ ] Confirm the desired GitHub destination. **No push now.**
+- [x] Option A prepared: 2,925 OFF-shaped + 797 USDA-shaped synthetic product rows.
+- [x] Synthetic data disclaimer clearly visible in README and both reports.
+- [x] RDF: 56,474 triples, 3,722 product nodes; 146 candidate barcode overlaps.
+- [x] SHACL: zero reported violations and warnings on the prepared graph.
+- [x] Docker: Fuseki and access layer running; one-shot pipeline exits with code 0.
+- [x] Seven Python tests passed after ML dependencies were persisted in the pipeline Docker image.
+- [x] Gemini Live: targeted six-question schema evaluation, mean F1 1.000 for five answerable questions and one correct refusal.
+- [x] Mocked repair flow confirmed two attempts and 16 returned brands. No claim of live model repair was made.
+- [x] Local .env, model tensor snapshot, backups and LLM cache are ignored by Git.
+- [x] Pattern-based source credential scan found no obvious keys; this is not a complete security guarantee.
+- [x] Original old-project scripts and historical PDF from data/archive and report/archive removed from current tree.
+- [x] Authors added: Mohammad Diab, Mohammad Mantach.
+- [ ] Decide whether the course requires individual contributor roles or instructor-specific references (not supplied).
+- [ ] Remove superseded report/SAFE_FOOD_Option_A_Technical_Report.pdf from Git before push.
+- [ ] Verify git diff --cached --check and git status; commit the final changes.
+- [ ] Push to origin/main and inspect the public repository after GitHub confirms success.
 
-## Secret audit (before any Git command that stages files)
+**Important:** The older repository's commit history is retained as a parent of the current main branch because it was integrated using a merge. The current main tree is SAFE-FOOD Option A. Removing historical Git objects requires a separate history-rewriting decision and was not requested.
 
-The `.gitignore` excludes `.env`, `.env.*` except `.env.example`, `build/`, temporary caches and `model/outputs/*.pt`. Secrets must be protected even if a file is manually force-added or was committed in another repository earlier. Do not copy `.env` into documentation or screenshots. Never paste a real API key into ChatGPT, a commit message or public issue. If a key is exposed, revoke/rotate it at Google AI Studio.
-
-The older `SAFE-FOOD-REVIEWED` GitHub repository is independent of `SAFE-FOOD-OPTION-A-READY`. Do not force-push or overwrite that repository unless the team explicitly chooses it.
+**Data integrity:** OFF and USDA records are synthetic teaching fixtures, not independently validated data from live product databases. Numeric model metrics do not establish real-world food-safety or nutritional validity.
