@@ -1,0 +1,62 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foodsafe: <https://ul.edu.lb/kr/foodsafe#> .
+
+# Gate shapes: Violations only (fast). Warning triage lives in shapes/warnings.ttl
+# and in rules/constraint_inventory.csv (R05–R08, R17–R18).
+
+foodsafe:PackagedProductShape
+  a sh:NodeShape ;
+  sh:targetClass foodsafe:PackagedProduct ;
+  rdfs:comment "R01 R03 R10–R13 — identity and sanity Violations." ;
+  sh:property [
+    sh:path foodsafe:barcode ;
+    sh:minCount 1 ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:severity sh:Violation ;
+    sh:message "R01: packaged product must have a barcode" ;
+  ] ;
+  sh:property [
+    sh:path foodsafe:productName ;
+    sh:minCount 1 ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+    sh:severity sh:Violation ;
+    sh:message "R03: packaged product must have a non-empty name" ;
+  ] ;
+  sh:property [
+    sh:path foodsafe:energyKcal100g ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 900 ;
+    sh:severity sh:Violation ;
+    sh:message "R12: energy kcal/100g must be in [0,900] when present" ;
+  ] ;
+  sh:property [
+    sh:path foodsafe:fat100g ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 100 ;
+    sh:severity sh:Violation ;
+    sh:message "R10a/R11: fat g/100g must be in [0,100] when present" ;
+  ] ;
+  sh:property [
+    sh:path foodsafe:salt100g ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:severity sh:Warning ;
+    sh:message "R10b: salt should be non-negative when present" ;
+  ] ;
+  sh:property [
+    sh:path foodsafe:hasNutriScore ;
+    sh:class foodsafe:NutriScoreGrade ;
+    sh:severity sh:Violation ;
+    sh:message "R13: Nutri-Score must be a known grade individual when present" ;
+  ] .
+
+# R17 label-gap Warnings are evidenced in rules/constraint_inventory.csv and
+# asserted as foodsafe:hasLabelGapFlag in the graph (queryable). Optional SPARQL
+# Warning shapes live in shapes/warnings.ttl — some pySHACL builds treat SPARQL
+# constraint results as Violation, which would wrongly fail the CI gate.

@@ -1,0 +1,7 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Convenience note: load foodon-slim.ttl then foodsafe.ttl (pipeline does both).
+<https://ul.edu.lb/kr/foodsafe/bundle>
+  a owl:Ontology ;
+  rdfs:comment "See foodsafe.ttl and foodon-slim.ttl in this folder." .

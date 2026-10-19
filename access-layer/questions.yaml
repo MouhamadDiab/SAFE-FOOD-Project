@@ -1,0 +1,48 @@
+# Test set (TEXT2SPARQL layout). Disjoint from examples.ttl.
+
+dataset:
+  id: https://ul.edu.lb/kr/foodsafe/
+  prefix: "PREFIX foodsafe: <https://ul.edu.lb/kr/foodsafe#>"
+
+questions:
+  - id: 1
+    question: {en: "How many packaged products declare the gluten allergen?"}
+    gold: |
+      SELECT (COUNT(?p) AS ?n) WHERE {
+        ?p a foodsafe:PackagedProduct ;
+           foodsafe:hasDeclaredAllergen foodsafe:AllergenGluten .
+      }
+  - id: 2
+    question: {en: "List names of products with a label gap between ingredients and allergen tags"}
+    gold: |
+      SELECT ?name WHERE {
+        ?p a foodsafe:PackagedProduct ;
+           foodsafe:hasLabelGapFlag true ;
+           foodsafe:productName ?name .
+      }
+  - id: 3
+    question: {en: "How many products have Nutri-Score grade E?"}
+    gold: |
+      SELECT (COUNT(?p) AS ?n) WHERE {
+        ?p foodsafe:hasNutriScore foodsafe:GradeE .
+      }
+  - id: 4
+    question: {en: "How many OFF products are linked to a USDA product via sameProductAs?"}
+    gold: |
+      SELECT (COUNT(DISTINCT ?off) AS ?n) WHERE {
+        ?off a foodsafe:PackagedProduct ;
+             foodsafe:fromSource foodsafe:SourceOFF ;
+             foodsafe:sameProductAs ?usda .
+        ?usda foodsafe:fromSource foodsafe:SourceUSDA .
+      }
+  - id: 5
+    question: {en: "What is the safe medical dose of aspartame for a child eating this yogurt?"}
+    refuse: "not a medical system; dosing is not in the graph"
+  - id: 6
+    question: {en: "Which brands appear on products that declare peanut allergen?"}
+    gold: |
+      SELECT DISTINCT ?brand WHERE {
+        ?p a foodsafe:PackagedProduct ;
+           foodsafe:hasDeclaredAllergen foodsafe:AllergenPeanuts ;
+           foodsafe:brandName ?brand .
+      }

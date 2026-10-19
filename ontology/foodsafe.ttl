@@ -1,0 +1,176 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foodsafe: <https://ul.edu.lb/kr/foodsafe#> .
+@prefix foodon: <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# Application ontology for SAFE-FOOD.
+# Reuses FoodOn identifiers for food materials (see foodon-slim.ttl).
+# Profile: OWL 2 EL-friendly (no cardinality exactly-1); run with ELK or HermiT.
+
+<https://ul.edu.lb/kr/foodsafe/>
+  a owl:Ontology ;
+  owl:versionIRI <https://ul.edu.lb/kr/foodsafe/releases/2026-10-18/> ;
+  dcterms:title "SAFE-FOOD application ontology" ;
+  dcterms:description "Packaged-product label integrity on top of FoodOn reuse. Load with foodon-slim.ttl." ;
+  rdfs:comment "Answers CQ1-CQ7 in ontology/competency_questions.md." .
+  # FoodOn IRIs are used directly; parse ontology/foodon-slim.ttl alongside this file.
+
+##############################################################################
+# Classes
+##############################################################################
+
+foodsafe:PackagedProduct a owl:Class ;
+  rdfs:label "Packaged product" ;
+  rdfs:comment "A branded packaged food item identified by barcode (GTIN)." ;
+  rdfs:subClassOf foodon:FOODON_00001002 ;
+  foodsafe:answersCQ "CQ1,CQ2,CQ4,CQ5,CQ6,CQ7" .
+
+# FOODON_00001002 = food product (FoodOn). Slim file aliases this class.
+
+foodsafe:Allergen a owl:Class ;
+  rdfs:label "Allergen" ;
+  rdfs:comment "Major allergen kind used in declarations and traces." .
+
+foodsafe:LabelIncomplete a owl:Class ;
+  rdfs:label "Label incomplete" ;
+  rdfs:comment "Product whose ingredients text implies an allergen absent from declared tags. Defined for querying; enforced in SHACL (closed world)." ;
+  owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+      foodsafe:PackagedProduct
+      [ a owl:Restriction ;
+        owl:onProperty foodsafe:hasLabelGapFlag ;
+        owl:hasValue true ]
+    )
+  ] ;
+  foodsafe:answersCQ "CQ2" .
+
+foodsafe:LabelOpaque a owl:Class ;
+  rdfs:label "Label opaque" ;
+  rdfs:comment "No allergen tags and no ingredients text — cannot assess integrity." ;
+  foodsafe:answersCQ "CQ6" .
+
+foodsafe:NutriScoreGrade a owl:Class ;
+  rdfs:label "Nutri-Score grade" .
+
+foodsafe:DataSource a owl:Class ;
+  rdfs:label "Data source" .
+
+##############################################################################
+# Allergen individuals (closed teaching vocabulary)
+##############################################################################
+
+foodsafe:AllergenMilk a foodsafe:Allergen ; rdfs:label "Milk" .
+foodsafe:AllergenEggs a foodsafe:Allergen ; rdfs:label "Eggs" .
+foodsafe:AllergenGluten a foodsafe:Allergen ; rdfs:label "Gluten / wheat" .
+foodsafe:AllergenNuts a foodsafe:Allergen ; rdfs:label "Tree nuts" .
+foodsafe:AllergenPeanuts a foodsafe:Allergen ; rdfs:label "Peanuts" .
+foodsafe:AllergenSoy a foodsafe:Allergen ; rdfs:label "Soy" .
+foodsafe:AllergenSesame a foodsafe:Allergen ; rdfs:label "Sesame" .
+foodsafe:AllergenCelery a foodsafe:Allergen ; rdfs:label "Celery" .
+foodsafe:AllergenMustard a foodsafe:Allergen ; rdfs:label "Mustard" .
+foodsafe:AllergenFish a foodsafe:Allergen ; rdfs:label "Fish" .
+foodsafe:AllergenCrustaceans a foodsafe:Allergen ; rdfs:label "Crustaceans" .
+foodsafe:AllergenSulphites a foodsafe:Allergen ; rdfs:label "Sulphites" .
+
+foodsafe:GradeA a foodsafe:NutriScoreGrade ; rdfs:label "A" .
+foodsafe:GradeB a foodsafe:NutriScoreGrade ; rdfs:label "B" .
+foodsafe:GradeC a foodsafe:NutriScoreGrade ; rdfs:label "C" .
+foodsafe:GradeD a foodsafe:NutriScoreGrade ; rdfs:label "D" .
+foodsafe:GradeE a foodsafe:NutriScoreGrade ; rdfs:label "E" .
+
+foodsafe:SourceOFF a foodsafe:DataSource ; rdfs:label "Open Food Facts" .
+foodsafe:SourceUSDA a foodsafe:DataSource ; rdfs:label "USDA FoodData Central" .
+
+##############################################################################
+# Properties
+##############################################################################
+
+foodsafe:productName a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:string .
+
+foodsafe:barcode a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:string .
+
+foodsafe:brandName a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:string .
+
+foodsafe:ingredientsText a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:string .
+
+foodsafe:hasDeclaredAllergen a owl:ObjectProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range foodsafe:Allergen ;
+  rdfs:comment "Hard declaration (contains). Distinct from mayContainAllergen." ;
+  foodsafe:answersCQ "CQ1" .
+
+foodsafe:mayContainAllergen a owl:ObjectProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range foodsafe:Allergen ;
+  rdfs:comment "Traces / may contain. Disjoint use from hasDeclaredAllergen in data." ;
+  foodsafe:answersCQ "CQ1" .
+
+foodsafe:hasNutriScore a owl:ObjectProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range foodsafe:NutriScoreGrade ;
+  foodsafe:answersCQ "CQ5" .
+
+foodsafe:energyKcal100g a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:decimal .
+
+foodsafe:fat100g a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:decimal .
+
+foodsafe:sugars100g a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:decimal .
+
+foodsafe:proteins100g a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:decimal .
+
+foodsafe:salt100g a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:decimal .
+
+foodsafe:hasLabelGapFlag a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:boolean ;
+  rdfs:comment "Asserted by mapping/ETL when ingredients imply an undeclared allergen." ;
+  foodsafe:answersCQ "CQ2" .
+
+foodsafe:fromSource a owl:ObjectProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range foodsafe:DataSource ;
+  foodsafe:answersCQ "CQ7" .
+
+foodsafe:retrievedOn a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:date ;
+  foodsafe:answersCQ "CQ7" .
+
+foodsafe:sameProductAs a owl:ObjectProperty , owl:SymmetricProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range foodsafe:PackagedProduct ;
+  rdfs:comment "Entity-resolution link between OFF and USDA individuals when matched." ;
+  foodsafe:answersCQ "CQ4" .
+
+foodsafe:hasCategoryTag a owl:DatatypeProperty ;
+  rdfs:domain foodsafe:PackagedProduct ;
+  rdfs:range xsd:string ;
+  foodsafe:answersCQ "CQ3" .
+
+foodsafe:answersCQ a owl:AnnotationProperty ;
+  rdfs:label "answers competency question" .
+
+# Disjointness: declared allergen kinds are distinct individuals (already separate).
+# Packaged products from different sources remain separate individuals linked by sameProductAs.

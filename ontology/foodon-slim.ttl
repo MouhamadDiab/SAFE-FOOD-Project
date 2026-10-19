@@ -1,0 +1,50 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foodon: <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# Slim FoodOn extract for teaching (CC BY 4.0).
+# Full FoodOn: http://purl.obolibrary.org/obo/foodon.owl
+# We keep stable FoodOn IRIs so the application ontology reuses, not reinvent.
+
+<https://ul.edu.lb/kr/foodsafe/foodon-slim>
+  a owl:Ontology ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcterms:source <http://purl.obolibrary.org/obo/foodon.owl> ;
+  rdfs:comment "Minimal FoodOn classes for SAFE-FOOD reuse and reasoner demos." .
+
+# food product
+foodon:FOODON_00001002 a owl:Class ;
+  rdfs:label "food product" ;
+  rdfs:comment "FoodOn food product (slim)." .
+
+# yogurt food product
+foodon:FOODON_03301227 a owl:Class ;
+  rdfs:label "yogurt food product" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
+
+# bread food product
+foodon:FOODON_00001241 a owl:Class ;
+  rdfs:label "bread food product" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
+
+# cheese food product
+foodon:FOODON_00001256 a owl:Class ;
+  rdfs:label "cheese food product" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
+
+# pasta food product
+foodon:FOODON_03301847 a owl:Class ;
+  rdfs:label "pasta" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
+
+# chocolate food product
+foodon:FOODON_03301629 a owl:Class ;
+  rdfs:label "chocolate food product" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
+
+# soft drink
+foodon:FOODON_03304869 a owl:Class ;
+  rdfs:label "soft drink" ;
+  rdfs:subClassOf foodon:FOODON_00001002 .
